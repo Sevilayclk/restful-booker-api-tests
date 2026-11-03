@@ -1,0 +1,37 @@
+name: API Tests
+
+# Ne zaman çalışsın?
+on:
+  push:
+    branches: [main]      # main'e her push'ta
+  workflow_dispatch:      # Actions sekmesinden elle de çalıştırılabilsin
+
+jobs:
+  api-tests:
+    runs-on: ubuntu-latest   # GitHub'ın verdiği sanal Linux makine
+
+    steps:
+      # 1) Repo dosyalarını sanal makineye indir
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2) Postman CLI'ı kur
+      - name: Install Postman CLI
+        run: curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
+
+      # 3) Collection'ı CSV ile çalıştır ve JUnit raporu üret
+      - name: Run collection with CSV data
+        run: |
+          mkdir -p results
+          postman collection run restful-booker.postman_collection.json \
+            -d booking.csv \
+            -r cli,junit \
+            --reporter-junit-export results/junit-report.xml
+
+      # 4) JUnit raporunu indirilebilir dosya olarak sakla
+      - name: Upload JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-report
+          path: results/junit-report.xml
