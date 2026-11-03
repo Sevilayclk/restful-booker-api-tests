@@ -1,0 +1,6 @@
+firstname,lastname,totalprice,depositpaid,checkin,checkout,additionalneeds
+Ayse,Yilmaz,100,true,2026-12-01,2026-12-03,Breakfast
+Mehmet,Kaya,0,false,2026-12-05,2026-12-06,None
+Zeynep,Demir,999999,true,2027-01-10,2027-01-20,Late checkout
+Ali,Celik,1,true,2026-12-31,2027-01-01,Dinner
+Elif,Sahin,250,false,2027-02-14,2027-02-15,Spa
